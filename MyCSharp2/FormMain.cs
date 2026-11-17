@@ -242,6 +242,15 @@ namespace MyCSharp2
             // Read all lines from the CSV
             var lines = File.ReadAllLines(_filePath).ToList();
 
+            /**
+            Tax-ID;Code;Type;Name;Address;Telephone
+            lines[0 = 1234567890987;AIS-BANGPLI;ห้างสรรพสินค้า;BANGPLI-LOGISTIC;dsfadsfs sdfsadfds dsafsdf dsfsdffa;0274025588
+            lines[1] = 3242324321423;AAAAAAAAAA;ห้างสรรพสินค้า;sdfasdfsdfsf;55555555555555555555;0615615156
+            lines[2] = 2341343243232;CCCCCCCC;ห้างสรรพสินค้า;sdfsdfds;sdfsdfsdfsdf;0858369955
+            lines[3] =  1234567890987;AIS-BANGPLI;ห้างสรรพสินค้า;BANGPLI-LOGISTIC;dsfadsfs sdfsadfds dsafsdf dsfsdffa;0274025588
+             */
+
+
             // If the CSV has a header, adjust the index (+1)
             int dataIndex = selectedIndex + 1;
 
@@ -260,11 +269,17 @@ namespace MyCSharp2
                 txtAddress.Text,
                 txtTelephone.Text,
             };
-            string data = string.Join(";", values);
+            string data = string.Join(";", values); // dataIndex =2 ==> 3242324321423;AAAAAAAAAA;ห้างสรรพสินค้า;xxxxxxxx;55555555555555555555;0615615156
 
             if (MessageBox.Show("Do you want to save changes to this row?\n" + data, "Confirm Save", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 lines[dataIndex] = data;
+                /**
+                lines[0 = 1234567890987;AIS-BANGPLI;ห้างสรรพสินค้า;BANGPLI-LOGISTIC;dsfadsfs sdfsadfds dsafsdf dsfsdffa;0274025588
+                lines[1] = 3242324321423;AAAAAAAAAA;ห้างสรรพสินค้า;xxxxxxxx;55555555555555555555;0615615156
+                lines[2] = 2341343243232;CCCCCCCC;ห้างสรรพสินค้า;sdfsdfds;sdfsdfsdfsdf;0858369955
+                lines[3] =  1234567890987;AIS-BANGPLI;ห้างสรรพสินค้า;BANGPLI-LOGISTIC;dsfadsfs sdfsadfds dsafsdf dsfsdffa;0274025588
+                */
                 File.WriteAllLines(_filePath, lines, new UTF8Encoding(true));
                 resetFormValue();
                 showCsvFileContentInDataGridView();
